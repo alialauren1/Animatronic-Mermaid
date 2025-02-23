@@ -4,7 +4,8 @@
 
 ## STM32 Nucleo 
 
-###So Pins on the nucelo:
+### Some Pins on the nucelo:
+
 <img width="600" alt="Screenshot 2025-02-22 at 10 26 57 PM" src="https://github.com/user-attachments/assets/e5246148-01ca-4951-902b-e763e58fa461" />
 
 <img width="300" alt="Screenshot 2025-02-22 at 10 27 13 PM" src="https://github.com/user-attachments/assets/161ca3a7-b200-474e-be77-9ff7458edc8d" />
