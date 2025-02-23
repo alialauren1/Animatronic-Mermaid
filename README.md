@@ -46,16 +46,22 @@ In addition to the PCB, you need the ferrite bead  and two 4.7k resistors. And t
 
 Component:
 Vendor Option:
+
 USB Mini-B
 Mouser 710-65100516121
+
 Screw Terminal, 5 Pin
 Mouser 651-1725685
+
 Screw Terminal, 10 Pin (Qty. 2)
 Mouser 651-1725737
+
 2x19 Receptacle Headers (Qty. 2)
 Mouser 517-929975-01-19-RK
+
 Nucleo L476RG
 Mouser 511-NUCLEO-L476RG
+
 X-NUCLEO-IHM04A1
 Mouser 511-X-NUCLEO-IHM04A1
 
