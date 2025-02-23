@@ -12,6 +12,8 @@
 
 <img width="300" alt="Screenshot 2025-02-22 at 10 27 13 PM" src="https://github.com/user-attachments/assets/161ca3a7-b200-474e-be77-9ff7458edc8d" />
 
+More info: https://os.mbed.com/platforms/ST-Nucleo-L476RG/#getting-started
+
 ## Practicing with cheaper/simpler servos: Tower Pro Micro Servo 9g SG90
 
 <img width="350" alt="Screenshot 2025-02-22 at 10 24 12 PM" src="https://github.com/user-attachments/assets/bd650ebe-126e-4429-be75-978fe0d2ebff" />
