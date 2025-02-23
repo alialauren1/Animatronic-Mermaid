@@ -24,7 +24,7 @@ More info: https://os.mbed.com/platforms/ST-Nucleo-L476RG/#getting-started
 
 ### To flash firmware/reset the nucleo:
 1. Download the firmware.bin file from github. or use this link:
-[https://micropython.org/download/?mcu=stm32l4](https://micropython.org/download/)
+https://micropython.org/download/
 for our board it leads us to this:
 https://micropython.org/download/NUCLEO_L476RG/ Download newest hex file and use STMCUBE programmer with rules below. 
 
