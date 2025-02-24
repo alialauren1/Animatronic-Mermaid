@@ -5,10 +5,15 @@
 
 ## Practicing with cheaper/simpler servos: Tower Pro Micro Servo 9g SG90
 
-The Signal Pin on Servo is connected to Pin PB_10 on Board. The Power is connected to the 5 V pin on Board. The GND is connected to a GND pin on Board
+The Signal Pin on Servo is connected to Pin PB_10 on Board. The Power is connected to the 5 V pin on Board. The GND is connected to a GND pin on Board.
 
-<img width="350" alt="Screenshot 2025-02-22 at 10 24 12 PM" src="https://github.com/user-attachments/assets/bd650ebe-126e-4429-be75-978fe0d2ebff" />
-<img width="350" alt="Screenshot 2025-02-22 at 10 24 47 PM" src="https://github.com/user-attachments/assets/9757dcaf-6b78-4c58-b9d6-65fc7955e032" />
+The operation current for SG90 is about 0.5A – 2A.
+Voltages from 4.8V – 6V are fine. Normal servos are operating 0-150 degrees.
+
+<img width="275" alt="Screenshot 2025-02-23 at 9 08 14 PM" src="https://github.com/user-attachments/assets/99c4dfdf-c71c-44f9-b9e2-69e9279b0641" />
+<img width="300" alt="Screenshot 2025-02-23 at 9 08 30 PM" src="https://github.com/user-attachments/assets/f52ddd58-81b4-46c2-a890-c1a06899d527" />
+
+https://towerpro.com.tw/product/sg90-7/
 
 ## STM32 Nucleo 
 
