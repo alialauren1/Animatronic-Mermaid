@@ -2,6 +2,9 @@
 
 3 DOF Robot, using servos
 
+## Practicing with Nice Motors: Name
+
+Will update sooner
 
 ## Practicing with cheaper/simpler servos: Tower Pro Micro Servo 9g SG90
 
