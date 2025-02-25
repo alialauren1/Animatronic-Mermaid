@@ -6,4 +6,4 @@ timer = pyb.Timer(2, freq=20) #periodic freq of timer [Hz]
 ch2 = timer.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=100000) # PW in 10s of nano seconds I think
 
   
-
+### comments
