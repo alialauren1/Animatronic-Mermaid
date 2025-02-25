@@ -7,3 +7,4 @@ ch2 = timer.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=100000
 
   
 ### comments
+### comment 2
