@@ -9,10 +9,9 @@ timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 # setup of PWM channels to communicate with motor
 # setup in Neutral Position: 1250 microseconds = 1250000ns
 neutral = 125000 # 10s of nanoseconds
-# motor 1
-ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral)
-# motor 2 UPDATE PIN VALUE!
-# ch2 = timer2.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral)
+
+ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # motor 1
+# ch2 = timer2.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # motor 2
     
 #setup of variables for Sin wave
 omega = math.radians(50) #deg/s to rad/s
@@ -37,7 +36,7 @@ while True:
     ch1.pulse_width(round(pwm_hip)) # round ensures integer going into PWM cmnd
     # ch2.pulse_width(pwm_knee)
     
-    t += 0.01 # i found that this works simpler to increment time, if you're ok with it
+    t += 0.01 # i found that this works to increment time, if you're ok with it
     
     # uncomment to view value outputs
     print(f"Motor 1 Angle: {theta_hip:.2f}, Motor 2 Angle: {theta_knee:.2f}")
