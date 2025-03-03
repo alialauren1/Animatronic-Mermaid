@@ -6,12 +6,15 @@ import pyb
 timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 # timer2 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 
-# setup of PWM channels to communicate with motor
 # setup in Neutral Position: 1250 microseconds = 1250000ns
 neutral = 125000 # 10s of nanoseconds
 
+# setup of PWM channels to communicate with motor
 ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # motor 1
 # ch2 = timer2.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # motor 2
+    
+adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1
+#adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2
     
 #setup of variables for Sin wave
 omega = math.radians(50) #deg/s to rad/s
@@ -20,29 +23,31 @@ A_knee = 18; # keep in degrees
 phase_diff = math.radians(90) # phase difference between motors 1 and 2
 k = 1000 # NOTE: k is conversion from theta(in deg) to PWM values
 
-t = 0 # start "i" or "time" at zero
+start = (time.ticks_ms()) # starts at arbitrary time
 
-# create loop that runs continuously until script is stopped
-while True:
+while True: # create loop that runs continuously until script is stopped
     
-    theta_hip = A_hip*math.sin(omega*t)
-    theta_knee = A_knee*math.sin(omega*t - phase_diff)
+    current_t = ((time.ticks_ms())-start)*0.001 # converts to seconds
+    
+    theta_desired_hip = A_hip*math.sin(omega*current_t)
+    theta_desired_knee = A_knee*math.sin(omega*current_t - phase_diff)
     
     # convert theta values to PWM values
-    pwm_hip = k*(theta_hip+75)
-    pwm_knee = k*(theta_knee+75)
+    pwm_desired_hip = k*(theta_desired_hip+75)
+    pwm_desired_knee = k*(theta_desired_knee+75)
+
+    fdbck_DC_S1 = adc_S1.read() #read feedback for hip servo
+    
+#     #Theory: P controller = (target - current position otherwise known as feedback pin)*gain
+#     PID_theta_err=(theta_knee - fdback_in_theta)*(1)
+#     PID_pwm_hip = k*((PID_theta_err+theta_knee)+75)
     
     # update values sent to motor through PWM channel
-    ch1.pulse_width(round(pwm_hip)) # round ensures integer going into PWM cmnd
+    ch1.pulse_width(round(pwm_desired_hip)) # round ensures integer going into PWM cmnd
     # ch2.pulse_width(pwm_knee)
     
-    t += 0.01 # i found that this works to increment time, if you're ok with it
-    
     # uncomment to view value outputs
-    print(f"Motor 1 Angle: {theta_hip:.2f}, Motor 2 Angle: {theta_knee:.2f}")
-    
-    # Unused now but from previous version:
-    #t = time.time()
-    # time.sleep(0.1) # create delay so signal is not continuous. or do we want continuous idk?? plotted values look better with wait thoug
-
-
+    print(f"Motor 1 Desired Angle: {theta_desired_hip:.2f}, Motor 2 Desired Angle: {theta_desired_knee:.2f}")
+#    print(f"Motor 1 Desired PWM: {pwm_desired_hip:.2f}")
+#    print(f"Motor 1 Measured PWM: {fdback_PWM_S1:.2f},ADC= {fdbck_DC_S1:.2f}")
+    print(current_t)
