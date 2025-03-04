@@ -4,17 +4,19 @@ import pyb
 
 # setup of timer
 timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
-# timer2 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
+timer2 = pyb.Timer(1, freq=50) #periodic freq of timer [Hz]
+timer3 = pyb.Timer(3, freq=50)
 
 # setup in Neutral Position: 1250 microseconds = 1250000ns
 neutral = 125000 # 10s of nanoseconds
 
 # setup of PWM channels to communicate with motor
 ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # motor 1
-# ch2 = timer2.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # motor 2
-    
+ch2 = timer2.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA8, pulse_width=neutral) # motor 2
+ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PB4, pulse_width=neutral) 
+ 
 adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1
-#adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2
+adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2
     
 #setup of variables for Sin wave
 omega = math.radians(50) #deg/s to rad/s
@@ -36,18 +38,22 @@ while True: # create loop that runs continuously until script is stopped
     pwm_desired_hip = k*(theta_desired_hip+75)
     pwm_desired_knee = k*(theta_desired_knee+75)
 
-    fdbck_DC_S1 = adc_S1.read() #read feedback for hip servo
+    #fdbck_DC_S1 = adc_S1.read() #read feedback for hip servo
     
 #     #Theory: P controller = (target - current position otherwise known as feedback pin)*gain
 #     PID_theta_err=(theta_knee - fdback_in_theta)*(1)
 #     PID_pwm_hip = k*((PID_theta_err+theta_knee)+75)
     
     # update values sent to motor through PWM channel
-    ch1.pulse_width(round(pwm_desired_hip)) # round ensures integer going into PWM cmnd
-    # ch2.pulse_width(pwm_knee)
+    #ch1.pulse_width(round(pwm_desired_hip)) # round ensures integer going into PWM cmnd
+    ch2.pulse_width(round(pwm_desired_knee))
+    #ch3.pulse_width(round(pwm_desired_hip))
     
     # uncomment to view value outputs
     print(f"Motor 1 Desired Angle: {theta_desired_hip:.2f}, Motor 2 Desired Angle: {theta_desired_knee:.2f}")
 #    print(f"Motor 1 Desired PWM: {pwm_desired_hip:.2f}")
 #    print(f"Motor 1 Measured PWM: {fdback_PWM_S1:.2f},ADC= {fdbck_DC_S1:.2f}")
     print(current_t)
+    
+
+
