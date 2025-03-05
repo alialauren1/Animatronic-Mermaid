@@ -11,9 +11,9 @@ timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 neutral = 125000 # 10s of nanoseconds
 
 # setup of PWM channels to communicate with motor
-ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # motor 1
-ch2 = timer2.channel(2, pyb.Timer.PWM, pin=pyb.Pin.board.PB3, pulse_width=neutral) # motor 2
-ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5, pulse_width=neutral)
+ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # hip in tail, joint 2
+ch2 = timer2.channel(2, pyb.Timer.PWM, pin=pyb.Pin.board.PB3, pulse_width=neutral) # knee in tail joint 3
+ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5, pulse_width=neutral) # hip to body, joint 1
 #  
 # adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1
 # adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2
