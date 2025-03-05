@@ -2,10 +2,10 @@ import time
 import math # note: python uses radians for trig, but degrees elsewhere
 import pyb
 
-# setup of timer
+# setup of timer, in this case, all have same timer
 timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 timer2 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
-timer3 = pyb.Timer(3, freq=50)
+timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 
 # setup in Neutral Position: 1250 microseconds = 1250000ns
 neutral = 125000 # 10s of nanoseconds
@@ -13,7 +13,7 @@ neutral = 125000 # 10s of nanoseconds
 # setup of PWM channels to communicate with motor
 ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10, pulse_width=neutral) # motor 1
 ch2 = timer2.channel(2, pyb.Timer.PWM, pin=pyb.Pin.board.PB3, pulse_width=neutral) # motor 2
-# ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PB4, pulse_width=neutral) 
+ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5, pulse_width=neutral)
 #  
 # adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1
 # adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2
@@ -47,7 +47,7 @@ while True: # create loop that runs continuously until script is stopped
     # update values sent to motor through PWM channel
     ch1.pulse_width(round(pwm_desired_hip)) # round ensures integer going into PWM cmnd
     ch2.pulse_width(round(pwm_desired_knee))
-    #ch3.pulse_width(round(pwm_desired_hip))
+    ch3.pulse_width(round(pwm_desired_hip))
     
     # uncomment to view value outputs
     print(f"Motor 1 Desired Angle: {theta_desired_hip:.2f}, Motor 2 Desired Angle: {theta_desired_knee:.2f}")
