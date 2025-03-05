@@ -10,9 +10,9 @@ This is the servo that spins the hips the vertical axis.
 ### Mermaid Tail Servos: Joint 2 and 3
 These are the servos that make the tail move, Joint 2 is located at the hip and Joint 3 at the "knee" of the tail. 
 
-## Practicing with cheaper/simpler servos: Tower Pro Micro Servo 9g SG90
+## Test Servos
 
-### Servo 1
+### Servo 1: Tower Pro Micro Servo 9g SG90
 The Signal Pin on Servo is connected to Pin PB_10 on Board. The Power is connected to the 5 V pin on Board. The GND is connected to a GND pin on Board.
 
 The operation current for SG90 is about 0.5A – 2A.
