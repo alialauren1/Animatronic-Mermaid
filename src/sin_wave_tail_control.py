@@ -18,12 +18,14 @@ adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1
 adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2, on joint 3
 
 ## Want to read current position before commanding neutral position
-fdbck_S1_init = adc_S1.read()
-fdbck_S2_init = adc_S2.read()
+fdbck_DC_S1_init = adc_S1.read()
+fdbck_DC_S2_init = adc_S2.read()
 print(f"ADC_S1 = {fdbck_S1_init:.2f}")
 time.sleep(3)
 
-# convert from ADC to PWM
+# convert from ADC to theta
+fdbck_theta_S1_init = (-0.048*fdbck_S1_init)+92.28 # position in deg
+fdbck_theta_S2_init = (-0.048*fdbck_S2_init)+92.28 # position in deg
 
 # spline will go here to move from whatever position read previously to then command neutral position which is shown below
 
