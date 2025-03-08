@@ -17,23 +17,17 @@ ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5) # hip to body, joi
 adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1, on joint 2
 adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2, on joint 3
 
-## Want to read current position before commanding neutral position
+## Want to read current position before commanding position
 fdbck_DC_S1_init = adc_S1.read()
 fdbck_DC_S2_init = adc_S2.read()
-print(f"ADC_S1 = {fdbck_S1_init:.2f}")
 time.sleep(3)
 
-# convert from ADC to theta
-fdbck_theta_S1_init = (-0.048*fdbck_S1_init)+92.28 # position in deg
-fdbck_theta_S2_init = (-0.048*fdbck_S2_init)+92.28 # position in deg
-
-# spline will go here to move from whatever position read previously to then command neutral position which is shown below
-
-# Command neutral PWM position
-print('--Commanding PW neutral position--')
-ch1.pulse_width(neutral)
-ch2.pulse_width(neutral)
-ch3.pulse_width(neutral)
+# convert from ADC to theta and/or PWM
+fdbck_theta_S1_init = (-0.048*fdbck_DC_S1_init)+92.28 # position in deg
+fdbck_theta_S2_init = (-0.048*fdbck_DC_S2_init)+92.28 # position in deg
+fdbck_theta_S1_init = (-47.77*fdbck_DC_S1_init)+217195 # PWM
+fdbck_theta_S2_init = (-47.77*fdbck_DC_S2_init)+217195 # PWM
+print(f"feedback pos S1 = {fdbck_theta_S1_init:.2f}, feedback pos S2 = {fdbck_theta_S2_init:.2f}")
 
 #setup of variables for Sin wave
 omega = math.radians(50) #deg/s to rad/s
@@ -52,13 +46,23 @@ while True: # create loop that runs continuously until script is stopped
     theta_desired_hip = A_hip*math.sin(omega*current_t)
     theta_desired_knee = A_knee*math.sin(omega*current_t - phase_diff)
     
+    
+    
+    # maybe spline can go here and can use a comparision of feedback and desired to see if need to do spline instead sin wave
+    # if u choose this, u can put this section and then the sin wav sections in an "if else" statement so it only does one or the other
+    
+    
+    
     # convert theta values to PWM values
     pwm_desired_hip = (k*theta_desired_hip)+125000
     pwm_desired_knee = (k*theta_desired_knee)+125000
     pwm_desired_verticalax = (k*theta_desired_knee)+125000 #third servo that rotates at hip abt vertical axis
 
+    # nice to see feedback if want:
     fdbck_DC_S1 = adc_S1.read() #read feedback for hip servo
     fdbck_DC_S2 = adc_S2.read() #read feedback for knee servo
+    fdbck_theta_S1 = (-0.048*fdbck_DC_S1)+92.28 # position in deg
+    fdbck_theta_S2 = (-0.048*fdbck_DC_S2)+92.28 # position in deg
     
     # update values sent to motor through PWM channel
     ch1.pulse_width(round(pwm_desired_hip)) # round ensures integer going into PWM cmnd
@@ -67,7 +71,7 @@ while True: # create loop that runs continuously until script is stopped
     
     # uncomment to view value outputs
     print(f"Motor 1 Desired Angle: {theta_desired_hip:.2f}, Motor 2 Desired Angle: {theta_desired_knee:.2f}")
-    print(f"Motor 1 Desired PWM: {pwm_desired_hip:.2f}")
-    print(f"ADC_S1= {fdbck_DC_S1:.2f}") ## ADC_S2= {fdbck_DC_S2:.2f}"
+    #print(f"Motor 1 Desired PWM: {pwm_desired_hip:.2f}")
+    print(f"feedback theta S1 = {fdbck_theta_S1:.2f}, feedback theta S2 = {fdbck_theta_S2:.2f}") 
     print(current_t)
     print('----------------------------------------')
