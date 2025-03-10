@@ -32,6 +32,7 @@ t_f2 = 2 * t_accel2
 
 # Use max time for synchronized movement
 t_f = max(t_f1, t_f2)
+print(f"time_to_home = {t_f:.2f}")
 
 # setup fifth order spline
 # Construct A matrix for spline coefficients
@@ -48,6 +49,10 @@ A = np.array([
 b_theta1 = np.array([theta1_0, 0, a_max, theta1_f, 0, 0])
 b_theta2 = np.array([theta2_0, 0, a_max, theta2_f, 0, 0])
 
+# solver for finding coefficients from A and b (A\b in MATLAB)
+coeff_theta1 = np.linalg.solve(A, b_theta1)
+coeff_theta2 = np.linalg.solve(A, b_theta2)
+
 # Function to compute theta at time t
 def compute_theta(t, coeffs):
     return sum(c * (t ** i) for i, c in enumerate(coeffs))
@@ -59,26 +64,26 @@ def angle_to_pwm(theta_rad):
     return (k * theta_deg) + 125000  # Mapping to servo PWM
 
 # Execute Spline Motion
+dt = 0.02  # Fixed time step of 20 ms
+num_steps = int(t_f / dt)  # Total number of steps
+
 print("-- Moving to Home Position --")
-start_time = time.ticks_ms()
 
-while True:
-    current_time = (time.ticks_ms() - start_time)* 0.001  # Convert ms to seconds
-    
-    if current_time >= t_f:
-        break  # Stop when motion completes
+for i in range(num_steps + 1):  
+    current_time = i * dt  
 
-    theta1 = compute_theta(current_time, coeff_theta1)
-    theta2 = compute_theta(current_time, coeff_theta2)
+    theta1 = math.degrees(compute_theta(current_time, coeff_theta1))
+    theta2 = math.degrees(compute_theta(current_time, coeff_theta2))
 
-    pwm1 = round(angle_to_pwm(theta1))
+    pwm1 = round(angle_to_pwm(theta1))  
     pwm2 = round(angle_to_pwm(theta2))
-    
-    ch1.pulse_width(pwm1)
-    ch2.pulse_width(pwm2)
 
-    time.sleep(0.02)  # Control loop timing
-    print(f"theta1 = {theta1:.2f}, theta2 = {theta2:.2f}")
+    print(f"t = {current_time:.2f}, theta1 = {theta1:.2f}, theta2 = {theta2:.2f}, pwm1 = {pwm1}, pwm2 = {pwm2}")
+
+    time.sleep(dt)  # Keep uniform timing
 
 print("-- Reached Home Position --")
-time.sleep(0.5) # can take out
+time.sleep(3)
+
+print("-- Beginning Sin Trajectory --")
+
