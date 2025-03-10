@@ -1,8 +1,7 @@
 import time
 import math # note: python uses radians for trig, but degrees elsewhere
 import pyb
-#import numpy as np
-import ulab
+import ulab as np # if allowed
 
 # setup of timer, in this case, all have same timer
 timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
@@ -37,7 +36,7 @@ theta2_0 = math.radians(fdbck_theta_S1_init)
 
 # target homing position
 theta1_f = math.radians(0) #hip starting with no offset
-theta2_f = math.radians(A_knee) #knee starting due to offset
+theta2_f = math.radians(-18) #A_knee starting due to offset
 
 # Motion Parameters so that t can also be a variable
 a_max = math.radians(5)  # Max acceleration [rad/s^2], can change
@@ -102,7 +101,8 @@ while True:
     ch1.pulse_width(pwm1)
     ch2.pulse_width(pwm2)
 
-    #time.sleep(0.02)  # Control loop timing
+    time.sleep(0.02)  # Control loop timing
+    print(f"theta1 = {theta1:.2f}, theta2 = {theta2:.2f}")
 
 print("-- Reached Home Position --")
 time.sleep(0.5) # can take out
