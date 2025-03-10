@@ -28,11 +28,8 @@ fdbck_DC_S2_init = adc_S2.read()
 fdbck_theta_S1_init = (-0.048*fdbck_DC_S1_init)+92.28 # position in deg
 fdbck_theta_S2_init = (-0.048*fdbck_DC_S2_init)+92.28
 print(f"theta1_start = {fdbck_theta_S1_init:.2f},theta2_start = {fdbck_theta_S2_init:.2f} ")
-time.sleep(5)
 
 ### nEW CODE HERE
-# 5TH ORDER SPLINE 
-
 # 5TH ORDER SPLINE 
 # spline will go here to move from whatever position read previously to then command neutral position which is shown below
 # initial position, rad
@@ -62,6 +59,7 @@ t_f2 = 2 * t_accel2
 # Use max time for synchronized movement
 t_f = max(t_f1, t_f2)
 print(f"time_to_home = {t_f:.2f}")
+time.sleep(5)
 
 # setup fifth order spline
 # Solve matrix manually since libraries with linear algebra not installed on nucleo board
@@ -152,10 +150,7 @@ for i in range(num_steps + 1):
 print("-- Reached Home Position --")
 time.sleep(3)
 
-print("-- Beginning Sin Trajectory --")
-
-
-### NEW CODE HERE
+### END NEW CODE
 
 # Command neutral PWM position
 # print('--Commanding PW neutral position--')
@@ -163,7 +158,8 @@ print("-- Beginning Sin Trajectory --")
 # ch2.pulse_width(neutral)
 # ch3.pulse_width(neutral)
 
-"""
+print("-- Beginning Sin Trajectory --")
+
 # SIN WAVE CONTROL
 #setup of variables for Sin wave
 omega = math.radians(50) #deg/s to rad/s
@@ -186,6 +182,7 @@ while True: # create loop that runs continuously until script is stopped
     
     theta_desired_hip = A_hip*math.sin(omega*current_t)
     theta_desired_knee = A_knee*math.sin(omega*current_t - phase_diff)
+    
     
     fdbck_DC_S1 = adc_S1.read() #read feedback for hip servo
     fdbck_DC_S2 = adc_S2.read() #read feedback for knee servo
@@ -212,7 +209,7 @@ while True: # create loop that runs continuously until script is stopped
     # update values sent to motor through PWM channel
     ch1.pulse_width(round(pwm_desired_hip)) # round ensures integer going into PWM cmnd
     ch2.pulse_width(round(pwm_desired_knee))
-    ch3.pulse_width(round(pwm_desired_verticalax))
+    #ch3.pulse_width(round(pwm_desired_verticalax))
     
     # uncomment to view value outputs
     print(f"Motor 1 Desired Angle: {theta_desired_hip:.2f}, Motor 2 Desired Angle: {theta_desired_knee:.2f}")
@@ -221,4 +218,4 @@ while True: # create loop that runs continuously until script is stopped
     print(f"ADC_S1= {fdbck_DC_S1:.2f}") ## ADC_S2= {fdbck_DC_S2:.2f}"
     print(current_t)
     print('----------------------------------------')
-    """
+    
