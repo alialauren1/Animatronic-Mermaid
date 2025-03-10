@@ -1,7 +1,8 @@
 import time
 import math # note: python uses radians for trig, but degrees elsewhere
 import pyb
-import numpy as np
+#import numpy as np
+import ulab
 
 # setup of timer, in this case, all have same timer
 timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
