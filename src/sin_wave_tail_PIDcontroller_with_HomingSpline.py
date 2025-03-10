@@ -41,7 +41,7 @@ theta1_f = math.radians(0) #hip starting with no offset
 theta2_f = math.radians(-18) #knee starting due to offset
 
 # Motion Parameters so that t can also be a variable
-a_max = math.radians(15)  # Max acceleration [rad/s^2], can change
+a_max = math.radians(20)  # Max acceleration [rad/s^2], can change
 
 # Compute v_max and estimated t_f
 delta_theta1 = abs(theta1_f - theta1_0)
@@ -59,7 +59,7 @@ t_f2 = 2 * t_accel2
 # Use max time for synchronized movement
 t_f = max(t_f1, t_f2)
 print(f"time_to_home = {t_f:.2f}")
-time.sleep(5)
+#time.sleep(5)
 
 # setup fifth order spline
 # Solve matrix manually since libraries with linear algebra not installed on nucleo board
@@ -148,7 +148,7 @@ for i in range(num_steps + 1):
     time.sleep(dt)  # Keep uniform timing
 
 print("-- Reached Home Position --")
-time.sleep(3)
+# time.sleep(3)
 
 ### END NEW CODE
 
