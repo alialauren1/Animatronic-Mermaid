@@ -15,7 +15,7 @@ theta1_f = math.radians(0) #hip starting with no offset
 theta2_f = math.radians(-18) #knee starting due to offset
 
 # Motion Parameters so that t can also be a variable
-a_max = math.radians(5)  # Max acceleration [rad/s^2], can change
+a_max = math.radians(12)  # Max acceleration [rad/s^2], can change
 
 # Compute v_max and estimated t_f
 delta_theta1 = abs(theta1_f - theta1_0)
@@ -58,10 +58,6 @@ def compute_theta(t, coeffs):
     return sum(c * (t ** i) for i, c in enumerate(coeffs))
 
 k = 1000 # NOTE: k is conversion from theta(in deg) to PWM values
-# Convert radians to PWM
-def angle_to_pwm(theta_rad):
-    theta_deg = math.degrees(theta_rad)
-    return (k * theta_deg) + 125000  # Mapping to servo PWM
 
 # Execute Spline Motion
 dt = 0.02  # Fixed time step of 20 ms
@@ -75,8 +71,8 @@ for i in range(num_steps + 1):
     theta1 = math.degrees(compute_theta(current_time, coeff_theta1))
     theta2 = math.degrees(compute_theta(current_time, coeff_theta2))
 
-    pwm1 = round(angle_to_pwm(theta1))  
-    pwm2 = round(angle_to_pwm(theta2))
+    pwm1 = round((k*theta1)+125000)
+    pwm2 = round((k*theta2)+125000)
 
     print(f"t = {current_time:.2f}, theta1 = {theta1:.2f}, theta2 = {theta2:.2f}, pwm1 = {pwm1}, pwm2 = {pwm2}")
 
@@ -86,4 +82,5 @@ print("-- Reached Home Position --")
 time.sleep(3)
 
 print("-- Beginning Sin Trajectory --")
+
 
