@@ -6,18 +6,18 @@ import pyb
 # setup of timer, in this case, all have same timer
 timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 timer2 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
-timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
+#timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 
 # setup in Neutral Position: 1250 microseconds = 1250000ns
-neutral = 125000 # 10s of nanoseconds, true neutral
+true_neutral = 125000 # 10s of nanoseconds, true neutral
 neutral_1 = 125000 # set neutral middle pos for hip
-neutral_2 = 150000  # set neutral pos for knee
+neutral_2 = 125000  # set neutral pos for knee
 
 
 # setup of pins for (1) PWM channels to communicate with motor & (2) ADC to be read
 ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10) # hip in tail, joint 2
 ch2 = timer2.channel(2, pyb.Timer.PWM, pin=pyb.Pin.board.PB3) # knee in tail joint 3
-ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5) # hip to body, joint 1
+#ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5) # hip to body, joint 1
 adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1, on joint 2
 adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2, on joint 3
 
@@ -39,7 +39,7 @@ theta1_0 = math.radians(fdbck_theta_S1_init)
 theta2_0 = math.radians(fdbck_theta_S2_init)
 
 # target homing position
-theta1_f = math.radians(0) #hip starting with no offset
+theta1_f = math.radians(0) #hip starting with no offset (-0.048*(neutral_1-true_neutral)
 theta2_f = math.radians(-18) #knee starting due to offset
 
 # Motion Parameters so that t can also be a variable
