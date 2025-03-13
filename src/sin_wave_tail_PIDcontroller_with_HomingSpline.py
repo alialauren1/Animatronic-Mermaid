@@ -6,16 +6,18 @@ import pyb
 # setup of timer, in this case, all have same timer
 timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 timer2 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
-#timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
+timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 
 # setup in Neutral Position: 1250 microseconds = 1250000ns
-neutral = 125000 # 10s of nanoseconds
+neutral = 125000 # 10s of nanoseconds, true neutral
+neutral_1 = 125000 # set neutral middle pos for hip
+neutral_2 = 150000  # set neutral pos for knee
 
 
 # setup of pins for (1) PWM channels to communicate with motor & (2) ADC to be read
 ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10) # hip in tail, joint 2
 ch2 = timer2.channel(2, pyb.Timer.PWM, pin=pyb.Pin.board.PB3) # knee in tail joint 3
-#ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5) # hip to body, joint 1
+ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5) # hip to body, joint 1
 adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1, on joint 2
 adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2, on joint 3
 
@@ -134,8 +136,8 @@ for i in range(num_steps + 1):
     theta1 = math.degrees(compute_theta(current_time, coeff_theta1))
     theta2 = math.degrees(compute_theta(current_time, coeff_theta2))
 
-    pwm1 = round((k*theta1)+125000)
-    pwm2 = round((k*theta2)+125000)
+    pwm1 = round((k*theta1)+neutral_1)
+    pwm2 = round((k*theta2)+neutral_2)
     
       
     # update values sent to motor through PWM channel
@@ -167,6 +169,10 @@ A_hip = 22; # keep in degrees
 A_knee = 18; # keep in degrees
 phase_diff = math.radians(90) # phase difference between motors 1 and 2
 
+#setup of variables for motor that spins torso
+omega_spin = math.radians(30) #deg/s to rad/s
+A_spin = 20;
+
 start = (time.ticks_ms()) # starts at arbitrary time
 
 kP = 0.01
@@ -182,7 +188,7 @@ while True: # create loop that runs continuously until script is stopped
     
     theta_desired_hip = A_hip*math.sin(omega*current_t)
     theta_desired_knee = A_knee*math.sin(omega*current_t - phase_diff)
-    
+    theta_verticalax = A_spin*math.sin(omega_spin*current_t)
     
     fdbck_DC_S1 = adc_S1.read() #read feedback for hip servo
     fdbck_DC_S2 = adc_S2.read() #read feedback for knee servo
@@ -202,9 +208,9 @@ while True: # create loop that runs continuously until script is stopped
     theta_S1_control = theta_desired_hip+P_theta_S1+D_theta_S1
     
     # convert theta values to PWM values
-    pwm_desired_hip = (k*(theta_S1_control))+125000
-    pwm_desired_knee = (k*theta_desired_knee)+125000
-    pwm_desired_verticalax = (k*theta_desired_knee)+125000 #third servo that rotates at hip abt vertical axis
+    pwm_desired_hip = (k*(theta_S1_control))+neutral_1
+    pwm_desired_knee = (k*theta_desired_knee)+neutral_2
+    pwm_desired_verticalax = (k*theta_verticalax)+125000 #third servo that rotates at hip abt vertical axis
     
     # update values sent to motor through PWM channel
     ch1.pulse_width(round(pwm_desired_hip)) # round ensures integer going into PWM cmnd
