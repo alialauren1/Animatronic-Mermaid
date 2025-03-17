@@ -7,6 +7,8 @@ timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 timer2 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 timer3 = pyb.Timer(2, freq=	0.0001, prescaler = 0) #periodic freq of timer [Hz]
 
+#0.0001
+
 # setup in Neutral Position: 1250 microseconds = 1250000ns
 neutral = 125000 # 10s of nanoseconds
 
@@ -16,14 +18,20 @@ ch2 = timer2.channel(2, pyb.Timer.PWM, pin=pyb.Pin.board.PB3) # knee in tail joi
 ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5) # hip to body, joint 1
 
 # homing
+time.sleep(3)
+print('commanding')
 ch3.pulse_width(125000)
+
+time.sleep(3)
+print('homed')
 # revert back to residred freq
 timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 
-omega_spin = math.radians(15) #deg/s to rad/s
+omega_spin = math.radians(80) #deg/s to rad/s
 A_spin = 10;
 k = 1000
 
+time.sleep(3)
 start = (time.ticks_ms()) 
 print("-- running2 --")
 while True: # create loop that runs continuously until script is stopped
