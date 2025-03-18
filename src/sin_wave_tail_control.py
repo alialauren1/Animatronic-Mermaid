@@ -5,17 +5,26 @@ import pyb
 # setup of timer, in this case, all have same timer
 timer1 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 timer2 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
-timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
+timer3 = pyb.Timer(2, freq=	0.0001, prescaler = 0) #periodic freq of timer [Hz]
 
 # setup in Neutral Position: 1250 microseconds = 1250000ns
 neutral = 125000 # 10s of nanoseconds
 
 # setup of pins for (1) PWM channels to communicate with motor & (2) ADC to be read
-ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10) # hip in tail, joint 2
-ch2 = timer2.channel(2, pyb.Timer.PWM, pin=pyb.Pin.board.PB3) # knee in tail joint 3
-ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5) # hip to body, joint 1
-adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1, on joint 2
-adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2, on joint 3
+ch1 = timer1.channel(3, pyb.Timer.PWM, pin=pyb.Pin.board.PB10) # hip in tail, joint 2, D6
+ch2 = timer2.channel(2, pyb.Timer.PWM, pin=pyb.Pin.board.PB3) # knee in tail joint 3, D3
+ch3 = timer3.channel(1, pyb.Timer.PWM, pin=pyb.Pin.board.PA5) # hip to body, joint 1, D13
+adc_S1 = pyb.ADC(pyb.Pin.board.PA6)# create analog object from a pin for servo 1, on joint 2, D12
+adc_S2 = pyb.ADC(pyb.Pin.board.PA7)# create analog object from a pin for servo 2, on joint 3, D11
+
+# homing big motor
+time.sleep(3)
+print('commanding')
+ch3.pulse_width(125000)
+time.sleep(3)
+print('homed')
+# revert back to residred freq
+timer3 = pyb.Timer(2, freq=50) #periodic freq of timer [Hz]
 
 ## Want to read current position before commanding position
 fdbck_DC_S1_init = adc_S1.read()
@@ -135,8 +144,8 @@ for i in range(num_steps + 1):
     theta1 = math.degrees(compute_theta(current_time, coeff_theta1))
     theta2 = math.degrees(compute_theta(current_time, coeff_theta2))
 
-    pwm1 = round((k*theta1)+neutral_1)
-    pwm2 = round((k*theta2)+neutral_2)
+    pwm1 = round((k*theta1)+neutral)
+    pwm2 = round((k*theta2)+neutral)
     
       
     # update values sent to motor through PWM channel
@@ -157,13 +166,14 @@ print("-- Reached Home Position --")
 
 #setup of variables for tail Sin wave
 omega = math.radians(50) #deg/s to rad/s
-A_hip = 22; # keep in degrees
+A_hip = 10; # keep in degrees
 A_knee = 18; # keep in degrees
 phase_diff = math.radians(90) # phase difference between motors 1 and 2
 
 #setup of variables for motor that spins torso, MAY NEED TO ALTER THESE VALUES #####
 omega_spin = math.radians(20) #deg/s to rad/s
-A_spin = 20;
+A_spin = 10;
+
 start = (time.ticks_ms()) # starts at arbitrary time
 
 print('--Running Loop--')
@@ -171,16 +181,15 @@ while True: # create loop that runs continuously until script is stopped
     
     current_t = ((time.ticks_ms())-start)*0.001 # converts to seconds
     
-    theta_desired_hip = A_hip*math.sin(omega*current_t)
-    theta_desired_knee = A_knee*math.sin(omega*current_t - phase_diff)
-    #theta_verticalax = A_spin*math.sin(omega_spin*current_t)
-    
+    theta_desired_hip = A_hip*math.sin(omega*current_t)-10
+    theta_desired_knee = A_knee*math.sin(omega*current_t - phase_diff)+30
+    theta_verticalax = A_spin*math.sin(omega_spin*current_t)+4
     
     # convert theta values to PWM values
     pwm_desired_hip = (k*theta_desired_hip)+125000
     pwm_desired_knee = (k*theta_desired_knee)+125000
-    #pwm_desired_verticalax = (k*theta_verticalax)+125000 #third servo that rotates at hip abt vertical axis
-
+    pwm_desired_verticalax = (k*theta_verticalax)+125000 #third servo that rotates at hip abt vertical axis
+    
     # nice to see feedback if want:
     fdbck_DC_S1 = adc_S1.read() #read feedback for hip servo
     fdbck_DC_S2 = adc_S2.read() #read feedback for knee servo
@@ -190,7 +199,7 @@ while True: # create loop that runs continuously until script is stopped
     # update values sent to motor through PWM channel
     ch1.pulse_width(round(pwm_desired_hip)) # round ensures integer going into PWM cmnd
     ch2.pulse_width(round(pwm_desired_knee))
-    #ch3.pulse_width(round(pwm_desired_verticalax))
+    ch3.pulse_width(round(pwm_desired_verticalax))
     
     # uncomment to view value outputs
     print(f"Motor 1 Desired Angle: {theta_desired_hip:.2f}, Motor 2 Desired Angle: {theta_desired_knee:.2f}")
