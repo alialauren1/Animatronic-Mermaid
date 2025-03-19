@@ -165,7 +165,7 @@ print("-- Reached Home Position --")
 
 
 #setup of variables for tail Sin wave
-omega = math.radians(50) #deg/s to rad/s
+omega = math.radians(50) #deg/s to rad/s #used to be 50
 A_hip = 10; # keep in degrees
 A_knee = 18; # keep in degrees
 phase_diff = math.radians(90) # phase difference between motors 1 and 2
@@ -181,9 +181,9 @@ while True: # create loop that runs continuously until script is stopped
     
     current_t = ((time.ticks_ms())-start)*0.001 # converts to seconds
     
-    theta_desired_hip = A_hip*math.sin(omega*current_t)-10
-    theta_desired_knee = A_knee*math.sin(omega*current_t - phase_diff)+30
-    theta_verticalax = A_spin*math.sin(omega_spin*current_t)+4
+    theta_desired_hip = A_hip*math.sin(omega*current_t)-10 # -10
+    theta_desired_knee = A_knee*math.sin(omega*current_t - phase_diff)+40
+    theta_verticalax = A_spin*math.sin(omega_spin*current_t)+10
     
     # convert theta values to PWM values
     pwm_desired_hip = (k*theta_desired_hip)+125000
