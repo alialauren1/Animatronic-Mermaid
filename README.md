@@ -2,13 +2,17 @@
 
 3 DOF Robot, using servos
 
+<img width="400" alt="Screenshot 2025-03-19 at 10 42 16 PM" src="https://github.com/user-attachments/assets/d41f9072-8683-4ea6-b427-8a64cf2278e5" />
+
 ## Selected Project Servos
 
 ### Mermaid Body Servo: Joint 1
-This is the servo that spins the hips the vertical axis. 
+This is the servo that spins the hips the vertical axis. INJORA 35 kg*cm servo
+<img width="125" alt="Screenshot 2025-03-19 at 10 43 28 PM" src="https://github.com/user-attachments/assets/afdce366-0b0d-4ac5-8538-534cec01eebb" />
 
 ### Mermaid Tail Servos: Joint 2 and 3
-These are the servos that make the tail move, Joint 2 is located at the hip and Joint 3 at the "knee" of the tail. 
+These are the servos that make the tail move, Joint 2 is located at the hip and Joint 3 at the "knee" of the tail. Pololu 15 kg*cm w/ position feedback
+<img width="116" alt="Screenshot 2025-03-19 at 10 44 00 PM" src="https://github.com/user-attachments/assets/c14933a6-b783-4aeb-a7c8-43de9cab4a5a" />
 
 ## Test Servos
 
@@ -18,15 +22,15 @@ The Signal Pin on Servo is connected to Pin PB_10 on Board. The Power is connect
 The operation current for SG90 is about 0.5A – 2A.
 Voltages from 4.8V – 6V are fine. Normal servos are operating 0-150 degrees.
 
-<img width="175" alt="Screenshot 2025-02-23 at 9 08 14 PM" src="https://github.com/user-attachments/assets/99c4dfdf-c71c-44f9-b9e2-69e9279b0641" />
-<img width="200" alt="Screenshot 2025-02-23 at 9 08 30 PM" src="https://github.com/user-attachments/assets/f52ddd58-81b4-46c2-a890-c1a06899d527" />
+<img width="100" alt="Screenshot 2025-02-23 at 9 08 14 PM" src="https://github.com/user-attachments/assets/99c4dfdf-c71c-44f9-b9e2-69e9279b0641" />
+<img width="150" alt="Screenshot 2025-02-23 at 9 08 30 PM" src="https://github.com/user-attachments/assets/f52ddd58-81b4-46c2-a890-c1a06899d527" />
 
 https://towerpro.com.tw/product/sg90-7/
 
 ### Servo 2
 
-<img width="200" alt="Screenshot 2025-02-23 at 9 14 04 PM" src="https://github.com/user-attachments/assets/813d8137-bc73-41b1-abdf-e711012f410d" />
-<img width="200" alt="Screenshot 2025-02-23 at 9 13 47 PM" src="https://github.com/user-attachments/assets/5800d577-4956-4150-9155-043784fcac21" />
+<img width="100" alt="Screenshot 2025-02-23 at 9 14 04 PM" src="https://github.com/user-attachments/assets/813d8137-bc73-41b1-abdf-e711012f410d" />
+<img width="100" alt="Screenshot 2025-02-23 at 9 13 47 PM" src="https://github.com/user-attachments/assets/5800d577-4956-4150-9155-043784fcac21" />
 
 https://towerpro.com.tw/product/sg92r-7/
 
