@@ -8,10 +8,12 @@
 
 ### Mermaid Body Servo: Joint 1
 This is the servo that spins the hips the vertical axis. INJORA 35 kg*cm servo
+
 <img width="125" alt="Screenshot 2025-03-19 at 10 43 28 PM" src="https://github.com/user-attachments/assets/afdce366-0b0d-4ac5-8538-534cec01eebb" />
 
 ### Mermaid Tail Servos: Joint 2 and 3
 These are the servos that make the tail move, Joint 2 is located at the hip and Joint 3 at the "knee" of the tail. Pololu 15 kg*cm w/ position feedback
+
 <img width="116" alt="Screenshot 2025-03-19 at 10 44 00 PM" src="https://github.com/user-attachments/assets/c14933a6-b783-4aeb-a7c8-43de9cab4a5a" />
 
 ## Test Servos
